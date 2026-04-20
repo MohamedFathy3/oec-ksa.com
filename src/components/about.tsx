@@ -15,7 +15,7 @@ const About = () => {
   const isRTL = dir === "rtl";    
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-40">
       {/* Hero Section - صورة كاملة الشاشة */}
   
 
@@ -70,15 +70,7 @@ const About = () => {
           </div>
         </div>
       </section>
-  <section className="relative w-full h-[600px]">
-        <img
-          src={Hero}
-          alt="About"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="relative h-full flex items-center justify-center text-center px-4">
-        </div>
-      </section>
+ 
       <FloatingButtons />
     </div>
   );

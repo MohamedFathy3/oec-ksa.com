@@ -86,44 +86,13 @@ const DownloadSection = () => {
             </p>
             
             {/* الوصف */}
-            <p className={`text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0 ${
-              isDark ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              {t.download.desc}
-            </p>
+           
 
             {/* معلومات الملف */}
-            <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg mb-8 ${
-              isDark ? 'bg-gray-800' : 'bg-gray-100'
-            }`}>
-              <FileText className="w-5 h-5 text-[#c9a03d]" />
-              <span className={`text-sm font-medium ${
-                isDark ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                {t.download.fileInfo}
-              </span>
-            </div>
-
+          
             {/* قائمة المميزات */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-                    isDark ? 'bg-gray-800' : 'bg-white'
-                  } shadow-sm`}
-                >
-                  <feature.icon className="w-4 h-4" style={{ color: feature.color }} />
-                  <span className={`text-sm font-medium ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>
-                    {feature.title}
-                  </span>
-                </motion.div>
-              ))}
+          
             </div>
 
             {/* زر فتح الرابط على Drive */}

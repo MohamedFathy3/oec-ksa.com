@@ -61,9 +61,9 @@ const Index = () => {
         
 
           <About />
+          <Hafe />
           <ServicesSection />
             <DownloadSection />
-          <Hafe />
           <ProjectsPreview />
         </main>
 
