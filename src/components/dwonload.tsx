@@ -4,6 +4,8 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { motion } from "framer-motion";
 import { Download, FileText, CheckCircle, Shield, Zap, ArrowRight, ExternalLink } from "lucide-react";
 
+import dwonaldo  from "@/assets/downalod.png";
+
 const DownloadSection = () => {
   const { t, lang } = useLanguage();
   const { isDark } = useTheme();
@@ -123,38 +125,38 @@ const DownloadSection = () => {
           </motion.div>
 
           {/* الجانب الأيسر - صورة أو أيقونة كبيرة */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex-1 flex justify-center"
-          >
-            <a 
-              href={driveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block cursor-pointer"
-            >
-              <div className={`relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-3xl flex items-center justify-center transition-all duration-300 hover:scale-105 ${
-                isDark ? 'bg-gradient-to-br from-[#c9a03d]/20 to-transparent' : 'bg-gradient-to-br from-[#c9a03d]/10 to-transparent'
-              }`}>
-                {/* الدائرة الخارجية */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-dashed border-[#c9a03d]/30 animate-spin-slow"></div>
-                
-                {/* الدائرة الداخلية */}
-                <div className={`w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-2xl flex items-center justify-center ${
-                  isDark ? 'bg-gray-800' : 'bg-white'
-                } shadow-2xl`}>
-                  <FileText className="w-24 h-24 md:w-32 md:h-32 text-[#c9a03d]" />
-                </div>
-                
-                {/* جزيئات متحركة */}
-                <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-[#c9a03d]/20 animate-pulse"></div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-[#c9a03d]/10 animate-pulse delay-1000"></div>
-                <div className="absolute top-1/2 -right-8 w-8 h-8 rounded-full bg-[#c9a03d]/30 animate-bounce"></div>
-              </div>
-            </a>
-          </motion.div>
+         <motion.div
+  initial={{ opacity: 0, scale: 0.8 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="flex-1 flex justify-center"
+>
+  <a 
+    href={driveLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="block cursor-pointer"
+  >
+    <div className={`relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-3xl flex items-center justify-center transition-all duration-300 hover:scale-105 ${
+      isDark ? 'bg-gradient-to-br from-[#c9a03d]/20 to-transparent' : 'bg-gradient-to-br from-[#c9a03d]/10 to-transparent'
+    }`}>
+
+      <div className="absolute inset-0 rounded-3xl border-2 border-dashed border-[#c9a03d]/30 animate-spin-slow"></div>
+      
+     <div className="w-full h-full rounded-2xl overflow-hidden">
+  <img 
+    src={dwonaldo}
+      alt="Download Icon"
+    className="w-full h-full object-cover"
+  />
+</div>
+
+      <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-[#c9a03d]/20 animate-pulse"></div>
+      <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-[#c9a03d]/10 animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 -right-8 w-8 h-8 rounded-full bg-[#c9a03d]/30 animate-bounce"></div>
+    </div>
+  </a>
+</motion.div>
         </div>
       </div>
 

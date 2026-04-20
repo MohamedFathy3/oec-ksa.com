@@ -15,7 +15,6 @@ import project8 from "@/assets/project/8.jpg";
 
 const projectImages = [project1, project2, project3, project4, project5, project6, project7, project8];
 
-// أيقونات مختلفة للمشاريع
 const projectIcons = [Fuel, Coffee, Building2, Home, Home, PaintRoller, PaintRoller, Building];
 
 const ProjectsPreview = () => {
@@ -556,5 +555,6 @@ const ProjectsPreview = () => {
     </section>
   );
 };
+
 
 export default ProjectsPreview;
