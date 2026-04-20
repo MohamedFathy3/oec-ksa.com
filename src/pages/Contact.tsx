@@ -133,11 +133,8 @@ const Contact = () => {
 
           {/* عنوان القسم */}
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-3">
-              {lang === "ar" ? "أرسل لنا رسالة" : "Send us a message"}
-            </h2>
-            <div className="w-20 h-1 bg-[#c9a03d] mx-auto rounded-full"></div>
-            <p className="text-gray-500 dark:text-gray-400 mt-4">
+         
+            <p className="text-gray-500 dark:text-gray-400 ">
               {lang === "ar" ? "يسعدنا تواصلك معنا، سوف نقوم بالرد عليك في أقرب وقت" : "We're happy to hear from you, we'll get back to you as soon as possible"}
             </p>
           </div>
