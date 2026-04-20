@@ -74,25 +74,19 @@ const DownloadSection = () => {
             </div>
 
             {/* العنوان */}
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
+            <h2 className={`text-3xl   sm:text-2xl md:text-5xl font-bold mb-10 leading-[1.3] md:leading-[1.6] ${
               isDark ? 'text-white' : 'text-gray-800'
             }`}>
               {t.download.title}
             </h2>
             
             {/* العنوان الفرعي */}
-            <p className={`text-lg md:text-xl mb-4 ${
+            <p className={`text-lg md:text-xl mt-4 ${
               isDark ? 'text-gray-300' : 'text-gray-600'
             }`}>
               {t.download.subtitle}
             </p>
             
-            {/* الوصف */}
-           
-
-            {/* معلومات الملف */}
-          
-            {/* قائمة المميزات */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
           
             </div>
