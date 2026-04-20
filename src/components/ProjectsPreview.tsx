@@ -8,10 +8,10 @@ import project1 from "@/assets/project/1.jpg";
 import project2 from "@/assets/project/2.jpg";
 import project3 from "@/assets/project/3.jpg";
 import project4 from "@/assets/project/4.jpg";
-import project5 from "@/assets/project/4.jpg";
-import project6 from "@/assets/project/5.jpg";
-import project7 from "@/assets/project/6.jpg";
-import project8 from "@/assets/project/7.jpg";
+import project5 from "@/assets/project/5.jpg";
+import project6 from "@/assets/project/6.jpg";
+import project7 from "@/assets/project/7.jpg";
+import project8 from "@/assets/project/8.jpg";
 
 const projectImages = [project1, project2, project3, project4, project5, project6, project7, project8];
 
@@ -486,37 +486,10 @@ const ProjectsPreview = () => {
                             </p>
                             
                             {/* Features */}
-                            {project.features && (
-                              <div className="mt-4 sm:mt-5">
-                                <h4 className={`font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 ${
-                                  isDark ? 'text-gray-200' : 'text-gray-700'
-                                }`}>
-                                  {lang === 'ar' ? 'المميزات:' : 'Features:'}
-                                </h4>
-                                <ul className="space-y-1.5 sm:space-y-2">
-                                  {getText(project, 'features').map((feature, i) => (
-                                    <li key={i} className="text-sm sm:text-base flex items-start gap-2">
-                                      <span className="text-[#c9a03d] text-base sm:text-lg">✓</span>
-                                      <span className={isDark ? 'text-gray-400' : 'text-gray-500'}>
-                                        {feature}
-                                      </span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+                         
                             
                             {/* زر عرض التفاصيل */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCardClick(project.id);
-                              }}
-                              className="inline-flex items-center gap-2 sm:gap-3 mt-5 sm:mt-6 text-[#c9a03d] font-semibold text-base sm:text-lg hover:gap-3 sm:hover:gap-4 transition-all"
-                            >
-                              <span>{lang === 'ar' ? 'عرض التفاصيل' : 'VIEW DETAILS'}</span>
-                              <ArrowRight size={windowWidth < 640 ? 16 : 20} className={isRTL ? 'rotate-180' : ''} />
-                            </button>
+                        
                           </motion.div>
                         )}
                       </AnimatePresence>

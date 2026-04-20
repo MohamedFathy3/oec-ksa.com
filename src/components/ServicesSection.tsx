@@ -316,10 +316,16 @@ const ServicesSection = () => {
                   key={idx}
                   className="absolute cursor-pointer"
                   style={style}
+                     
                   onClick={() => handleCardClick(idx, isActive)}
                   whileHover={!isActive && windowWidth > 640 ? { scale: 1.05, transition: { duration: 0.2 } } : {}}
                 >
-                  <div className={`
+                  <div 
+                    onClick={(e) => {
+                                e.stopPropagation();
+                                navigateToService(idx);
+                              }}
+                  className={`
                     relative w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] rounded-2xl overflow-hidden
                     transition-all duration-500 shadow-xl
                     ${isDark 
@@ -334,6 +340,7 @@ const ServicesSection = () => {
                   `}>
                     <div className="relative h-[160px] sm:h-[200px] md:h-[240px] lg:h-[260px] overflow-hidden">
                       <img
+                   
                         src={serviceImages[idx % serviceImages.length]}
                         alt={service.title}
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
@@ -364,35 +371,7 @@ const ServicesSection = () => {
                         {service.title}
                       </h3>
                       
-                      <AnimatePresence>
-                        {(isActive && showDetails) && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, y: 20 }}
-                            animate={{ opacity: 1, height: "auto", y: 0 }}
-                            exit={{ opacity: 0, height: 0, y: 20 }}
-                            transition={{ duration: 0.4 }}
-                            className="overflow-hidden"
-                          >
-                            <p className={`text-xs sm:text-sm leading-relaxed mt-2 sm:mt-3 text-center ${
-                              isDark ? 'text-gray-300' : 'text-gray-600'
-                            }`}>
-                              {service.desc}
-                            </p>
-                            
-                            <motion.button 
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigateToService(idx);
-                              }}
-                              className="mt-3 sm:mt-4 md:mt-5 w-full py-2 sm:py-2.5 rounded-lg bg-[#c9a03d] text-white font-semibold hover:bg-[#b88d2e] transition-all duration-300 shadow-lg text-xs sm:text-sm"
-                            >
-                              {lang === 'ar' ? 'اعرف أكثر' : 'Learn More'}
-                            </motion.button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                  
                     </div>
                   </div>
                 </motion.div>

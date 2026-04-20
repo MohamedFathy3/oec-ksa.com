@@ -8,10 +8,10 @@ import project1 from "@/assets/project/1.jpg";
 import project2 from "@/assets/project/2.jpg";
 import project3 from "@/assets/project/3.jpg";
 import project4 from "@/assets/project/4.jpg";
-import project5 from "@/assets/project/4.jpg";
-import project6 from "@/assets/project/5.jpg";
-import project7 from "@/assets/project/6.jpg";
-import project8 from "@/assets/project/7.jpg";
+import project5 from "@/assets/project/5.jpg";
+import project6 from "@/assets/project/6.jpg";
+import project7 from "@/assets/project/7.jpg";
+import project8 from "@/assets/project/8.jpg";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -412,54 +412,7 @@ const ProjectsPreview = () => {
                         </div>
                       </div>
                       
-                      {/* التفاصيل - تظهر للعنصر النشط */}
-                      <AnimatePresence>
-                        {(isActive && showDetails) && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, y: 20 }}
-                            animate={{ opacity: 1, height: "auto", y: 0 }}
-                            exit={{ opacity: 0, height: 0, y: 20 }}
-                            transition={{ duration: 0.4 }}
-                            className="overflow-hidden"
-                          >
-                            <p className={`text-[11px] sm:text-xs md:text-sm leading-relaxed mt-2 sm:mt-3 ${
-                              isDark ? 'text-gray-300' : 'text-gray-600'
-                            }`}>
-                              {getText(project, 'description')}
-                            </p>
-                            
-                            {/* Features */}
-                            {project.features && (
-                              <div className="mt-3 sm:mt-4">
-                                <h4 className={`font-semibold text-[11px] sm:text-xs md:text-sm mb-1 sm:mb-2 ${
-                                  isDark ? 'text-gray-200' : 'text-gray-700'
-                                }`}>
-                                  {lang === 'ar' ? 'المميزات:' : 'Features:'}
-                                </h4>
-                                <ul className="space-y-1">
-                                  {getText(project, 'features').map((feature, i) => (
-                                    <li key={i} className="text-[10px] sm:text-xs flex items-start gap-1 sm:gap-2">
-                                      <span className="text-[#c9a03d] text-[10px] sm:text-xs">✓</span>
-                                      <span className={isDark ? 'text-gray-400' : 'text-gray-500'}>
-                                        {feature}
-                                      </span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                            
-                            {/* زر عرض التفاصيل */}
-                            <button
-                              onClick={() => handleCardClick(project.id)}
-                              className="inline-flex items-center gap-1 sm:gap-2 mt-3 sm:mt-4 text-[#c9a03d] font-semibold text-[10px] sm:text-xs md:text-sm hover:gap-2 sm:hover:gap-3 transition-all"
-                            >
-                              <span>{lang === 'ar' ? 'عرض التفاصيل' : 'VIEW DETAILS'}</span>
-                              <ArrowRight size={windowWidth < 640 ? 10 : 14} className={isRTL ? 'rotate-180' : ''} />
-                            </button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                   
 
                       {/* مؤشر للضغط */}
                       
