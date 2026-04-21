@@ -148,85 +148,41 @@ const ServicesSection = () => {
   };
 
   // 🔥 عند الضغط على الكارد
-  const handleCardClick = (idx, isActive) => {
-    stopAutoPlay();
-    if (isActive) {
-      setShowDetails(!showDetails);
-    } else {
-      setActiveIndex(idx);
-      setShowDetails(false);
-    }
-    resetAutoPlay();
+ const handleCardClick = (idx) => {
+    setActiveIndex(idx);
+    setShowDetails(false);
   };
 
   // حساب المواقع بشكل متجاوب حسب حجم الشاشة
-  const getItemStyle = (index) => {
-    let position = index - activeIndex;
-    
-    if (position > totalItems / 2) position -= totalItems;
-    if (position < -totalItems / 2) position += totalItems;
-    
-    const angle = position * (360 / totalItems);
-    
-    let radius = 280;
-    if (windowWidth < 640) radius = 180;
-    else if (windowWidth < 768) radius = 220;
-    else if (windowWidth < 1024) radius = 250;
-    else radius = 300;
-    
-    const radian = (angle * Math.PI) / 180;
-    
-    let x = Math.sin(radian) * radius;
-    let z = Math.cos(radian) * radius;
-    
-    const isActive = position === 0;
-    
-    let scale = 1;
-    let opacity = 0.7;
-    let translateY = 0;
-    let blur = "0px";
-    let zIndex = 10;
-    let brightness = "1";
-    
-    if (isActive) {
-      scale = windowWidth < 640 ? 1.2 : windowWidth < 768 ? 1.3 : 1.4;
-      opacity = 1;
-      translateY = windowWidth < 640 ? -20 : -40;
-      blur = "0px";
-      zIndex = 50;
-      brightness = "1";
-    } else if (Math.abs(position) === 1) {
-      scale = windowWidth < 640 ? 0.9 : 1.05;
-      opacity = windowWidth < 640 ? 0.8 : 0.9;
-      translateY = windowWidth < 640 ? -5 : -10;
-      blur = "0px";
-      zIndex = 20;
-      brightness = windowWidth < 640 ? "0.7" : "0.8";
-    } else if (Math.abs(position) === 2) {
-      scale = windowWidth < 640 ? 0.7 : 0.85;
-      opacity = windowWidth < 640 ? 0.5 : 0.6;
-      translateY = 0;
-      blur = windowWidth < 640 ? "1px" : "2px";
-      zIndex = 5;
-      brightness = windowWidth < 640 ? "0.5" : "0.6";
-    } else {
-      scale = windowWidth < 640 ? 0.5 : 0.7;
-      opacity = windowWidth < 640 ? 0.2 : 0.3;
-      translateY = 0;
-      blur = windowWidth < 640 ? "3px" : "4px";
-      zIndex = 1;
-      brightness = windowWidth < 640 ? "0.3" : "0.4";
-    }
-    
-    return {
-      transform: `translateX(${x}px) translateZ(${z}px) scale(${scale}) translateY(${translateY}px)`,
-      opacity: opacity,
-      filter: `blur(${blur}) brightness(${brightness})`,
-      zIndex: zIndex,
-      transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-      cursor: "pointer",
-    };
+const getItemStyle = (index) => {
+  let position = index - activeIndex;
+  
+  if (position > totalItems / 2) position -= totalItems;
+  if (position < -totalItems / 2) position += totalItems;
+  
+  const angle = position * (360 / totalItems);
+  
+  let radius = 320;
+  if (windowWidth < 640) radius = 200;
+  else if (windowWidth < 768) radius = 250;
+  else if (windowWidth < 1024) radius = 300;
+  else radius = 350;
+  
+  const radian = (angle * Math.PI) / 180;
+  
+  let x = Math.sin(radian) * radius;
+  let z = Math.cos(radian) * radius;
+  
+  // نفس الحجم ونفس الخصائص لكل الكاردات
+  return {
+    transform: `translateX(${x}px) translateZ(${z}px) scale(1) translateY(0px)`,
+    opacity: 1,
+    filter: "blur(0px) brightness(1)",
+    zIndex: position === 0 ? 50 : 20,
+    transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+    cursor: "pointer",
   };
+};
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -300,7 +256,6 @@ const ServicesSection = () => {
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
           onMouseEnter={stopAutoPlay} // 🔥 إيقاف التشغيل عند دخول الماوس
-          onMouseLeave={resetAutoPlay} // 🔥 إعادة التشغيل عند خروج الماوس
         >
           <div 
             className="relative w-full h-[400px] sm:h-[480px] md:h-[550px] flex items-center justify-center"
@@ -317,8 +272,7 @@ const ServicesSection = () => {
                   className="absolute cursor-pointer"
                   style={style}
                      
-                  onClick={() => handleCardClick(idx, isActive)}
-                  whileHover={!isActive && windowWidth > 640 ? { scale: 1.05, transition: { duration: 0.2 } } : {}}
+                 onClick={() => handleCardClick(idx)}  
                 >
                   <div 
                     onClick={(e) => {

@@ -14,9 +14,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -34,143 +32,112 @@ const Navbar = () => {
   ];
 
   const isRTL = lang === "ar";
+  const bgColor = isDark ? "bg-black" : "bg-white";
+  const textColor = isDark ? "text-white" : "text-gray-800";
+  const textMuted = isDark ? "text-white/70" : "text-gray-600";
+  const borderColor = isDark ? "border-white/10" : "border-gray-200";
+  const hoverBg = "hover:bg-[#c9a03d] hover:text-black transition-colors duration-300";
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-black/80 backdrop-blur-md"
-          : "bg-black/40 backdrop-blur-sm"
-      } text-white`}
-      dir={isRTL ? "rtl" : "ltr"}
-    >
-      {/* 🔹 الصف الأول */}
-      <div className="hidden md:block bg-black/40 backdrop-blur-sm border-b border-white/10">
-        <div className="container mx-auto px-4 sm:px-6 relative flex items-center h-[70px]">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${bgColor}/50 backdrop-blur-sm shadow-lg`} dir={isRTL ? "rtl" : "ltr"}>
+      
+      {/* الصف الأول - ديسكتوب */}
+      <div className={`hidden md:block border-b ${borderColor}`}>
+        <div className="container mx-auto px-4 sm:px-6 h-[70px] relative">
+          
+          {/* اللوجو - ثابت في أقصى الشمال دائمًا */}
+          <Link to="/" className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 flex items-center gap-2" dir="ltr">
+            <img src={logo} alt="logo" className="h-10 md:h-12 object-contain" />
+            <h2 className={`text-sm md:text-base font-semibold ${textColor}`}>{t.nav.name}</h2>
+          </Link>
 
-          {/* 🔥 اللوجو ثابت شمال ومتوسط */}
-          <div
-  className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 flex items-center gap-2"
-  dir="ltr"
->
-  <Link to="/" className="flex items-center gap-2">
-    
-    {/* logo */}
-    <img
-      src={logo}
-      alt="logo"
-      className="h-10 md:h-12 lg:h-14 object-contain"
-    />
-
-    {/* text */}
-    <div className="flex flex-col leading-tight">
-      <h2 className="text-sm ml-5 md:text-base font-semibold whitespace-nowrap">
-        {t.nav.name}
-      </h2>
-     
-    </div>
-
-  </Link>
-</div>
-
-          {/* البيانات */}
-          <div className="flex items-center gap-3 lg:gap-4 text-xs md:text-sm ml-auto">
-            <div className="flex items-center gap-2">
-              <Mail size={14} />
-              <span>info@oec-ksa.com</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Phone size={14} />
-              <span dir="ltr">+966 50 032 5298</span>
-            </div>
-
-            <button
-              onClick={() => setLang(lang === "ar" ? "en" : "ar")}
-              className="flex items-center gap-1 px-2 py-1 rounded-full bg-white/10 hover:bg-[#c9a03d] hover:text-black transition text-xs"
-            >
-              <Globe size={12} />
-              {lang === "ar" ? "EN" : "عربي"}
+          {/* البيانات - جهة اليمين في LTR والشمال في RTL */}
+          <div className={`flex items-center h-full gap-3 text-xs md:text-sm ${textMuted} ${isRTL ? "justify-start pr-28" : "justify-end pl-28"}`}>
+            <div className="hidden lg:flex items-center gap-2"><Mail size={14} /><span>info@oec-ksa.com</span></div>
+            <div className="hidden sm:flex items-center gap-2"><Phone size={14} /><span dir="ltr">+966 50 032 5298</span></div>
+            
+            <button onClick={() => setLang(lang === "ar" ? "en" : "ar")} className={`flex items-center gap-1 px-2 py-1 rounded-full transition text-xs ${isDark ? "bg-white/10" : "bg-gray-100"} ${hoverBg}`}>
+              <Globe size={12} />{lang === "ar" ? "EN" : "عربي"}
             </button>
-
-            <button
-              onClick={toggle}
-              className="p-1.5 rounded-full bg-white/10 hover:bg-[#c9a03d] hover:text-black transition"
-            >
+            
+            <button onClick={toggle} className={`p-1.5 rounded-full transition ${isDark ? "bg-white/10" : "bg-gray-100"} ${hoverBg}`}>
               {isDark ? <Sun size={12} /> : <Moon size={12} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* 🔹 الصف الثاني */}
-      <div className="hidden md:block bg-black/30 backdrop-blur-sm">
-        <div className="container mx-auto px-4 sm:px-6 flex items-center justify-center py-3 gap-6">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`relative text-sm font-medium transition ${
-                location.pathname === l.to
-                  ? "text-white"
-                  : "text-white/80 hover:text-white"
-              }`}
-            >
-              {l.label}
-              {location.pathname === l.to && (
-                <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />
-              )}
-            </Link>
-          ))}
+      {/* الصف الثاني - الروابط متوزعة بالتساوي تحت - ديسكتوب */}
+      <div className={`hidden md:block ${bgColor}/50`}>
+        <div className="container mx-auto px-4 sm:px-6">
+<div className="flex items-center justify-center gap-x-16 md:gap-x-20 lg:gap-x-24 py-3">
+    {links.map((l) => (
+    <Link
+      key={l.to}
+      to={l.to}
+      className={`relative text-sm md:text-base font-medium transition duration-300 ${
+        location.pathname === l.to
+          ? "text-[#c9a03d]"
+          : isDark
+          ? "text-white/80 hover:text-white"
+          : "text-gray-600 hover:text-gray-900"
+      }`}
+    >
+      {l.label}
+      {location.pathname === l.to && (
+        <span className="absolute -bottom-3 left-0 right-0 h-0.5 bg-[#c9a03d] rounded-full" />
+      )}
+    </Link>
+  ))}
+</div>
         </div>
       </div>
 
-      {/* 🔹 موبايل */}
+      {/* 🔹 الموبايل */}
       <div className="md:hidden">
-        <div
-          className={`px-4 h-[60px] relative flex items-center ${
-            scrolled
-              ? "bg-black/80 backdrop-blur-md"
-              : "bg-black/40 backdrop-blur-sm"
-          }`}
-        >
+        {/* الصف الأول في الموبايل */}
+        <div className={`px-3 py-2 flex items-center justify-between ${bgColor}/${scrolled ? "95" : "90"} backdrop-blur-sm border-b ${borderColor}`}>
           {/* اللوجو */}
-          <div className="absolute left-4 top-1/2 -translate-y-1/2" dir="ltr">
-            <Link to="/">
-              <img src={logo} alt="logo" className="h-8 object-contain" />
-            </Link>
-          </div>
-
-          {/* أزرار */}
-          <div className="flex items-center gap-2 ml-auto">
-            <button onClick={() => setLang(lang === "ar" ? "en" : "ar")}>
-              <Globe size={16} />
+          <Link to="/" className="flex items-center gap-1.5" dir="ltr">
+            <img src={logo} alt="logo" className="h-7 object-contain" />
+            <h2 className={`text-[9px] font-semibold ${textColor}`}>{t.nav.name}</h2>
+          </Link>
+          
+          {/* الأزرار */}
+          <div className={`flex items-center gap-2 ${textMuted}`}>
+            <button onClick={() => setLang(lang === "ar" ? "en" : "ar")} className="p-1">
+              <Globe size={15} />
             </button>
-
-            <button onClick={toggle}>
-              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            <button onClick={toggle} className="p-1">
+              {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
-
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-1">
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
+        {/* القائمة المنسدلة للموبايل */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="bg-black/90 backdrop-blur-md"
+              className={`${bgColor}/95 backdrop-blur-md border-t ${borderColor}`}
             >
-              <div className="px-4 py-4 space-y-2">
+              <div className="px-3 py-2 space-y-0.5">
                 {links.map((l) => (
                   <Link
                     key={l.to}
                     to={l.to}
-                    className="block py-2 text-white/80 hover:text-white"
+                    className={`block py-2.5 text-sm font-medium transition duration-300 ${
+                      location.pathname === l.to
+                        ? "text-[#c9a03d]"
+                        : isDark
+                        ? "text-white/80 hover:text-white"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
                   >
                     {l.label}
                   </Link>

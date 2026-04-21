@@ -21,6 +21,7 @@ import Manageproject from "./pages/manageproject.tsx";
 import Seperserivece from "./pages/seiperservice.tsx";
 import EngineeringConsulting from "./pages/EngineeringConsulting.tsx";
 import WafiOffPlanSales from "./pages/Wafi-Off-PlanSales.tsx";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,9 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+                    <ScrollToTop />
             <Routes>
+
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
 

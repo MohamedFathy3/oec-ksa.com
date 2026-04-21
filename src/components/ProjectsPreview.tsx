@@ -178,7 +178,7 @@ const ProjectsPreview = () => {
       if (isAutoPlaying && !isDragging) {
         nextSlide();
       }
-    }, 3000);
+    }, 5000);
   }, [isAutoPlaying, isDragging, nextSlide]);
 
   // إيقاف الحركة التلقائية
@@ -266,75 +266,35 @@ const ProjectsPreview = () => {
   };
 
   // دالة حساب مواقع العناصر - تكبير خارق للكارد
-  const getItemStyle = (index) => {
-    let position = index - activeIndex;
-    
-    if (position > totalItems / 2) position -= totalItems;
-    if (position < -totalItems / 2) position += totalItems;
-    
-    const angle = position * (360 / totalItems);
-    
-    // نصف قطر صغير جداً = كارد قريب جداً = كبير جداً
-    let radius = 120; // كان 180 - قللنا أكتر
-    if (windowWidth < 640) radius = 70;
-    else if (windowWidth < 768) radius = 85;
-    else if (windowWidth < 1024) radius = 100;
-    else radius = 120;
-    
-    const radian = (angle * Math.PI) / 180;
-    
-    let x = Math.sin(radian) * radius;
-    let z = Math.cos(radian) * radius;
-    
-    const isActive = position === 0;
-    
-    let scale = 1;
-    let opacity = 0.7;
-    let translateY = 0;
-    let blur = "0px";
-    let zIndex = 10;
-    let brightness = "1";
-    
-    if (isActive) {
-      scale = windowWidth < 640 ? 1.8 : windowWidth < 768 ? 2.2 : 2.5; // تكبير خارق
-      opacity = 1;
-      translateY = windowWidth < 640 ? -10 : -20;
-      blur = "0px";
-      zIndex = 50;
-      brightness = "1";
-    } else if (Math.abs(position) === 1) {
-      scale = windowWidth < 640 ? 1.3 : windowWidth < 768 ? 1.6 : 1.9;
-      opacity = windowWidth < 640 ? 0.85 : 0.9;
-      translateY = windowWidth < 640 ? -5 : -8;
-      blur = "0px";
-      zIndex = 20;
-      brightness = windowWidth < 640 ? "0.75" : "0.85";
-    } else if (Math.abs(position) === 2) {
-      scale = windowWidth < 640 ? 1.0 : windowWidth < 768 ? 1.3 : 1.5;
-      opacity = windowWidth < 640 ? 0.6 : 0.7;
-      translateY = 0;
-      blur = windowWidth < 640 ? "1px" : "1.5px";
-      zIndex = 5;
-      brightness = windowWidth < 640 ? "0.6" : "0.7";
-    } else {
-      scale = windowWidth < 640 ? 0.8 : windowWidth < 768 ? 1.0 : 1.2;
-      opacity = windowWidth < 640 ? 0.3 : 0.4;
-      translateY = 0;
-      blur = windowWidth < 640 ? "2px" : "3px";
-      zIndex = 1;
-      brightness = windowWidth < 640 ? "0.4" : "0.5";
-    }
-    
-    return {
-      transform: `translateX(${x}px) translateZ(${z}px) scale(${scale}) translateY(${translateY}px)`,
-      opacity: opacity,
-      filter: `blur(${blur}) brightness(${brightness})`,
-      zIndex: zIndex,
-      transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-      cursor: "pointer",
-    };
+const getItemStyle = (index) => {
+  let position = index - activeIndex;
+  
+  if (position > totalItems / 2) position -= totalItems;
+  if (position < -totalItems / 2) position += totalItems;
+  
+  const angle = position * (360 / totalItems);
+  
+  let radius = 320;
+  if (windowWidth < 640) radius = 200;
+  else if (windowWidth < 768) radius = 250;
+  else if (windowWidth < 1024) radius = 300;
+  else radius = 350;
+  
+  const radian = (angle * Math.PI) / 180;
+  
+  let x = Math.sin(radian) * radius;
+  let z = Math.cos(radian) * radius;
+  
+  // نفس الحجم ونفس الخصائص لكل الكاردات
+  return {
+    transform: `translateX(${x}px) translateZ(${z}px) scale(1) translateY(0px)`,
+    opacity: 1,
+    filter: "blur(0px) brightness(1)",
+    zIndex: position === 0 ? 50 : 20,
+    transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+    cursor: "pointer",
   };
-
+};
   // التحكم في لوحة المفاتيح
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -392,10 +352,8 @@ const ProjectsPreview = () => {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onMouseEnter={stopAutoPlay}
         >
-          <div 
+          <div
             className="relative w-full h-[550px] sm:h-[680px] md:h-[800px] lg:h-[900px] flex items-center justify-center"
             style={{ transformStyle: "preserve-3d" }}
           >
@@ -410,7 +368,6 @@ const ProjectsPreview = () => {
                   className="absolute cursor-pointer"
                   style={style}
                   onClick={() => handleCardToggle(idx, isActive)}
-                  whileHover={!isActive && windowWidth > 640 ? { scale: 1.05, transition: { duration: 0.2 } } : {}}
                 >
                   <div className={`
                     relative w-[150px] sm:w-[250px] md:w-[250px] lg:w-[450px] rounded-2xl overflow-hidden

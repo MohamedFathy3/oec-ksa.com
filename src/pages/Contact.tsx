@@ -55,7 +55,7 @@ const Contact = () => {
         <img
           src={contactUsImage}
           alt="Contact Us"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover brightness-90 "
         />
         
         {/* Overlay خفيف عشان النص يبان */}

@@ -62,7 +62,6 @@ const About = () => {
         
         .marquee-image {
           height: 70px;
-          background: white;
           padding: 10px;
           border-radius: 10px;
           transition: all 0.3s ease;

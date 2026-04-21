@@ -2,7 +2,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, MapPin, ArrowRight, Fuel, Coffee, Building2, Home, PaintRoller, Building } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import project1 from "@/assets/project/1.jpg";
 import project2 from "@/assets/project/2.jpg";
@@ -13,12 +13,11 @@ import project6 from "@/assets/project/6.jpg";
 import project7 from "@/assets/project/7.jpg";
 import project8 from "@/assets/project/8.jpg";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import Navbar from "@/components/Navbar";
 
 const projectImages = [project1, project2, project3, project4, project5, project6, project7, project8];
 
-// أيقونات مختلفة للمشاريع
 const projectIcons = [Fuel, Coffee, Building2, Home, Home, PaintRoller, PaintRoller, Building];
 
 const ProjectsPreview = () => {
@@ -32,7 +31,9 @@ const ProjectsPreview = () => {
   const [startY, setStartY] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const containerRef = useRef(null);
+  const autoPlayRef = useRef(null);
 
   // مراقبة حجم الشاشة
   useEffect(() => {
@@ -41,7 +42,7 @@ const ProjectsPreview = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // بيانات المشاريع - title بس
+  // بيانات المشاريع
   const projectsData = [
     {
       id: 1,
@@ -159,20 +160,84 @@ const ProjectsPreview = () => {
 
   const totalItems = projectsData.length;
 
-  // التنقل بالسهمين
-  const nextSlide = () => {
+  // دالة التنقل التالي
+  const nextSlide = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % totalItems);
     setShowDetails(false);
-  };
+  }, [totalItems]);
 
-  const prevSlide = () => {
+  // دالة التنقل السابق
+  const prevSlide = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + totalItems) % totalItems);
     setShowDetails(false);
-  };
+  }, [totalItems]);
+
+  // تشغيل الحركة التلقائية
+  const startAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+    }
+    autoPlayRef.current = setInterval(() => {
+      if (isAutoPlaying && !isDragging) {
+        nextSlide();
+      }
+    }, 5000);
+  }, [isAutoPlaying, isDragging, nextSlide]);
+
+  // إيقاف الحركة التلقائية
+  const stopAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+      autoPlayRef.current = null;
+    }
+  }, []);
+
+  // إعادة تشغيل الحركة التلقائية
+  const resetAutoPlay = useCallback(() => {
+    if (isAutoPlaying) {
+      stopAutoPlay();
+      startAutoPlay();
+    }
+  }, [isAutoPlaying, stopAutoPlay, startAutoPlay]);
+
+  // بدء الحركة التلقائية عند تحميل المكون
+  useEffect(() => {
+    if (totalItems > 0 && isAutoPlaying) {
+      startAutoPlay();
+    }
+    return () => stopAutoPlay();
+  }, [totalItems, isAutoPlaying, startAutoPlay, stopAutoPlay]);
 
   // دالة للتنقل لصفحة المشروع
   const handleCardClick = (projectId) => {
+    stopAutoPlay();
     navigate(`/projects/${projectId}`);
+    resetAutoPlay();
+  };
+
+  // التعامل مع السهمين
+  const handleNextSlide = () => {
+    stopAutoPlay();
+    nextSlide();
+    resetAutoPlay();
+  };
+
+  const handlePrevSlide = () => {
+    stopAutoPlay();
+    prevSlide();
+    resetAutoPlay();
+  };
+
+  // عند الضغط على الكارد
+  const handleCardToggle = (idx, isActive) => {
+    stopAutoPlay();
+    if (isActive) {
+      setShowDetails(!showDetails);
+    } else {
+      setActiveIndex(idx);
+      setShowDetails(false);
+    }
+    resetAutoPlay();
   };
 
   // التنقل بالماوس
@@ -180,6 +245,7 @@ const ProjectsPreview = () => {
     setIsDragging(true);
     setStartX(e.clientX);
     setStartY(e.clientY);
+    stopAutoPlay();
   };
 
   const handleMouseMove = (e) => {
@@ -189,9 +255,9 @@ const ProjectsPreview = () => {
     
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
       if (deltaX > 0) {
-        prevSlide();
+        handlePrevSlide();
       } else {
-        nextSlide();
+        handleNextSlide();
       }
       setIsDragging(false);
     }
@@ -199,84 +265,46 @@ const ProjectsPreview = () => {
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    resetAutoPlay();
   };
 
-  // حساب مواقع العناصر في الشكل الدائري 3D
-  const getItemStyle = (index) => {
-    let position = index - activeIndex;
-    
-    if (position > totalItems / 2) position -= totalItems;
-    if (position < -totalItems / 2) position += totalItems;
-    
-    const angle = position * (360 / totalItems);
-    
-    let radius = 320;
-    if (windowWidth < 640) radius = 180;
-    else if (windowWidth < 768) radius = 220;
-    else if (windowWidth < 1024) radius = 270;
-    else radius = 320;
-    
-    const radian = (angle * Math.PI) / 180;
-    
-    let x = Math.sin(radian) * radius;
-    let z = Math.cos(radian) * radius;
-    
-    const isActive = position === 0;
-    
-    let scale = 1;
-    let opacity = 0.7;
-    let translateY = 0;
-    let blur = "0px";
-    let zIndex = 10;
-    let brightness = "1";
-    
-    if (isActive) {
-      scale = windowWidth < 640 ? 1.2 : windowWidth < 768 ? 1.3 : 1.45;
-      opacity = 1;
-      translateY = windowWidth < 640 ? -20 : -45;
-      blur = "0px";
-      zIndex = 50;
-      brightness = "1";
-    } else if (Math.abs(position) === 1) {
-      scale = windowWidth < 640 ? 0.9 : 1.08;
-      opacity = windowWidth < 640 ? 0.8 : 0.9;
-      translateY = windowWidth < 640 ? -8 : -15;
-      blur = "0px";
-      zIndex = 20;
-      brightness = windowWidth < 640 ? "0.7" : "0.8";
-    } else if (Math.abs(position) === 2) {
-      scale = windowWidth < 640 ? 0.7 : 0.88;
-      opacity = windowWidth < 640 ? 0.5 : 0.6;
-      translateY = 0;
-      blur = windowWidth < 640 ? "1px" : "2px";
-      zIndex = 5;
-      brightness = windowWidth < 640 ? "0.5" : "0.6";
-    } else {
-      scale = windowWidth < 640 ? 0.5 : 0.72;
-      opacity = windowWidth < 640 ? 0.2 : 0.3;
-      translateY = 0;
-      blur = windowWidth < 640 ? "3px" : "4px";
-      zIndex = 1;
-      brightness = windowWidth < 640 ? "0.3" : "0.4";
-    }
-    
-    return {
-      transform: `translateX(${x}px) translateZ(${z}px) scale(${scale}) translateY(${translateY}px)`,
-      opacity: opacity,
-      filter: `blur(${blur}) brightness(${brightness})`,
-      zIndex: zIndex,
-      transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-      cursor: "pointer",
-    };
+  // دالة حساب مواقع العناصر - تكبير خارق للكارد
+const getItemStyle = (index) => {
+  let position = index - activeIndex;
+  
+  if (position > totalItems / 2) position -= totalItems;
+  if (position < -totalItems / 2) position += totalItems;
+  
+  const angle = position * (360 / totalItems);
+  
+  let radius = 320;
+  if (windowWidth < 640) radius = 200;
+  else if (windowWidth < 768) radius = 250;
+  else if (windowWidth < 1024) radius = 300;
+  else radius = 350;
+  
+  const radian = (angle * Math.PI) / 180;
+  
+  let x = Math.sin(radian) * radius;
+  let z = Math.cos(radian) * radius;
+  
+  // نفس الحجم ونفس الخصائص لكل الكاردات
+  return {
+    transform: `translateX(${x}px) translateZ(${z}px) scale(1) translateY(0px)`,
+    opacity: 1,
+    filter: "blur(0px) brightness(1)",
+    zIndex: position === 0 ? 50 : 20,
+    transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+    cursor: "pointer",
   };
-
+};
   // التحكم في لوحة المفاتيح
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "ArrowLeft") {
-        prevSlide();
+        handlePrevSlide();
       } else if (e.key === "ArrowRight") {
-        nextSlide();
+        handleNextSlide();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -289,7 +317,6 @@ const ProjectsPreview = () => {
     }
   }, [isRTL]);
 
-  // دالة للحصول على النص حسب اللغة
   const getText = (item, field) => {
     if (typeof item[field] === 'object') {
       return item[field][lang] || item[field].en;
@@ -298,11 +325,12 @@ const ProjectsPreview = () => {
   };
 
   return (
-<>
-  <Navbar />
-   <HeroSection />
-
-   <section className={`py-12 mt-10 sm:py-16 md:py-20 transition-all duration-500 overflow-hidden ${
+    <>  
+    
+    <Navbar/>
+    <HeroSection/>
+    
+    <section className={`py-12 mt-10 sm:py-16 md:py-20 transition-all duration-500 overflow-hidden ${
       isDark 
         ? 'bg-black' 
         : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
@@ -314,30 +342,27 @@ const ProjectsPreview = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-16"
-          style={{margin:"150px"}}
+          className="text-center mb-12 sm:mb-16"
+          style={{ marginBottom: "200px" }}
         >
           <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4 transition-all duration-500 ${
-            isDark
+            isDark ? 'text-white' : 'text-gray-800'
           }`}>
             {lang === 'ar' ? 'تعرف على مشاريعنا' : 'GET TO KNOW OUR PROJECTS'}
           </h2>
-         
           <div className="w-20 sm:w-24 h-1 bg-[#c9a03d] mx-auto mt-4 sm:mt-6 rounded-full"></div>
         </motion.div>
 
-        {/* Carousel 3D Container */}
         <div 
           ref={containerRef}
-          className="relative flex items-center justify-center min-h-[450px] sm:min-h-[550px] md:min-h-[650px] lg:min-h-[700px]"
+          className="relative flex items-center justify-center min-h-[600px] sm:min-h-[750px] md:min-h-[900px] lg:min-h-[1000px]"
           style={{ perspective: windowWidth < 640 ? "800px" : "1200px" }}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
         >
-          <div 
-            className="relative w-full h-[400px] sm:h-[480px] md:h-[540px] lg:h-[600px] flex items-center justify-center"
+          <div
+            className="relative w-full h-[550px] sm:h-[680px] md:h-[800px] lg:h-[900px] flex items-center justify-center"
             style={{ transformStyle: "preserve-3d" }}
           >
             {projectsData.map((project, idx) => {
@@ -350,11 +375,10 @@ const ProjectsPreview = () => {
                   key={idx}
                   className="absolute cursor-pointer"
                   style={style}
-                 
-                  whileHover={!isActive && windowWidth > 640 ? { scale: 1.05, transition: { duration: 0.2 } } : {}}
+                  onClick={() => handleCardToggle(idx, isActive)}
                 >
                   <div className={`
-                    relative w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px] rounded-2xl overflow-hidden
+                    relative w-[150px] sm:w-[250px] md:w-[250px] lg:w-[450px] rounded-2xl overflow-hidden
                     transition-all duration-500 shadow-xl
                     ${isDark 
                       ? 'bg-gray-800 shadow-gray-900/50' 
@@ -366,8 +390,8 @@ const ProjectsPreview = () => {
                       : ''
                     }
                   `}>
-                    {/* الصورة */}
-                    <div className="relative h-[160px] sm:h-[200px] md:h-[240px] lg:h-[260px] overflow-hidden">
+                    {/* الصورة - ارتفاع عملاق */}
+                    <div className="relative h-[150px] sm:h-[320px] md:h-[100px] lg:h-[280px] overflow-hidden">
                       <img
                         src={project.image}
                         alt={getText(project, 'title')}
@@ -380,42 +404,59 @@ const ProjectsPreview = () => {
                           : 'from-black/60 via-black/20 to-transparent'
                       }`} />
 
-                      {/* الأيقونة */}
-                      <div className={`absolute top-2 sm:top-4 right-2 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-[#c9a03d] flex items-center justify-center shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300`}>
-                        <Icon className="text-white" size={windowWidth < 640 ? 18 : 22} />
+                      {/* الأيقونة - كبيرة جداً */}
+                      <div className={`absolute top-4 sm:top-5 right-4 sm:right-5 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[#c9a03d] flex items-center justify-center shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300`}>
+                        <Icon className="text-white" size={windowWidth < 640 ? 28 : 34} />
                       </div>
-
-                      {/* رقم المشروع */}
-                     
                     </div>
 
-                    {/* المحتوى - title بس من غير type */}
-                    <div className={`p-3 sm:p-4 md:p-5 transition-all duration-500 ${
+                    {/* المحتوى - padding كبير */}
+                    <div className={`p-5 sm:p-6 md:p-7 transition-all duration-500 ${
                       isActive && showDetails 
                         ? (isDark ? 'bg-gray-800' : 'bg-white')
                         : ''
                     }`}>
-                      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-2 sm:mb-3">
+                      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3 sm:mb-4">
                         <h3 className={`font-bold transition-all duration-500
                           ${isActive 
-                            ? `text-base sm:text-lg md:text-xl ${isDark ? 'text-[#c9a03d]' : 'text-gray-800'}` 
-                            : `text-sm sm:text-base md:text-lg ${isDark ? 'text-gray-200' : 'text-gray-700'}`
+                            ? `text-xl sm:text-2xl md:text-3xl ${isDark ? 'text-[#c9a03d]' : 'text-gray-800'}` 
+                            : `text-lg sm:text-xl md:text-2xl ${isDark ? 'text-gray-200' : 'text-gray-700'}`
                           }`}
                         >
                           {getText(project, 'title')}
                         </h3>
-                        <div className="flex items-center gap-1 text-[10px] sm:text-xs shrink-0">
-                          <MapPin size={windowWidth < 640 ? 10 : 12} className="text-[#c9a03d]" />
+                        <div className="flex items-center gap-1 text-sm sm:text-base shrink-0">
+                          <MapPin size={windowWidth < 640 ? 14 : 16} className="text-[#c9a03d]" />
                           <span className={isDark ? 'text-gray-400' : 'text-gray-500'}>
                             {getText(project, 'location')}
                           </span>
                         </div>
                       </div>
                       
-                   
-
-                      {/* مؤشر للضغط */}
-                      
+                      {/* التفاصيل - تظهر للعنصر النشط */}
+                      <AnimatePresence>
+                        {(isActive && showDetails) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0, y: 20 }}
+                            animate={{ opacity: 1, height: "auto", y: 0 }}
+                            exit={{ opacity: 0, height: 0, y: 20 }}
+                            transition={{ duration: 0.4 }}
+                            className="overflow-hidden"
+                          >
+                            <p className={`text-sm sm:text-base md:text-lg leading-relaxed mt-2 sm:mt-3 ${
+                              isDark ? 'text-gray-300' : 'text-gray-600'
+                            }`}>
+                              {getText(project, 'description')}
+                            </p>
+                            
+                            {/* Features */}
+                         
+                            
+                            {/* زر عرض التفاصيل */}
+                        
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </motion.div>
@@ -423,10 +464,9 @@ const ProjectsPreview = () => {
             })}
           </div>
 
-          {/* أزرار التنقل */}
           <button
-            onClick={prevSlide}
-            className={`absolute left-2 sm:left-4 md:left-8 lg:left-10 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full 
+            onClick={handlePrevSlide}
+            className={`absolute left-2 sm:left-4 md:left-8 lg:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full 
               transition-all duration-300 hover:scale-110 z-20 flex items-center justify-center shadow-xl
               ${isDark 
                 ? 'bg-[#c9a03d] hover:bg-[#b88d2e] text-white' 
@@ -434,12 +474,12 @@ const ProjectsPreview = () => {
               }`}
             aria-label={lang === 'ar' ? 'السابق' : 'Previous'}
           >
-            <ChevronLeft className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${isRTL ? 'rotate-180' : ''}`} />
+            <ChevronLeft className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 ${isRTL ? 'rotate-180' : ''}`} />
           </button>
 
           <button
-            onClick={nextSlide}
-            className={`absolute right-2 sm:right-4 md:right-8 lg:right-10 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full 
+            onClick={handleNextSlide}
+            className={`absolute right-2 sm:right-4 md:right-8 lg:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full 
               transition-all duration-300 hover:scale-110 z-20 flex items-center justify-center shadow-xl
               ${isDark 
                 ? 'bg-[#c9a03d] hover:bg-[#b88d2e] text-white' 
@@ -447,10 +487,18 @@ const ProjectsPreview = () => {
               }`}
             aria-label={lang === 'ar' ? 'التالي' : 'Next'}
           >
-            <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${isRTL ? 'rotate-180' : ''}`} />
+            <ChevronRight className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 ${isRTL ? 'rotate-180' : ''}`} />
           </button>
+
+          {/* مؤشر التشغيل التلقائي */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
+            <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isAutoPlaying ? 'bg-[#c9a03d] w-4' : 'bg-white/50'}`} />
+            <div className="w-2 h-2 rounded-full bg-white/50" />
+            <div className="w-2 h-2 rounded-full bg-white/50" />
+          </div>
         </div>
       </div>
+      
       <style jsx>{`
         .custom-scroll::-webkit-scrollbar {
           width: 3px;
@@ -470,11 +518,13 @@ const ProjectsPreview = () => {
         }
       `}</style>
     </section>
-       <Footer />
 
-</>
- 
+
+    <Footer/>
+    </>
+  
   );
 };
+
 
 export default ProjectsPreview;
