@@ -48,22 +48,14 @@ const Contact = () => {
   return (
     <div className="min-h-screen" dir="rtl">
       <Navbar />
-      
-      {/* Hero Section مع الصورة والعناصر الثلاثة */}
       <section className=" relative w-full h-[550px] md:h-[600px] overflow-hidden">
-        {/* الصورة الخلفية */}
         <img
           src={contactUsImage}
           alt="Contact Us"
           className="absolute inset-0 w-full h-full object-cover brightness-90 "
         />
-        
-        {/* Overlay خفيف عشان النص يبان */}
         <div className="absolute inset-0 bg-black/30"></div>
-        
-        {/* المحتوى اللي فوق الصورة */}
         <div className="relative h-full flex flex-col items-center justify-center px-4">
-          {/* العنوان */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,15 +65,12 @@ const Contact = () => {
           >
             {t.contact?.pageTitle || "تواصل معنا"}
           </motion.h1>
-          
           <motion.div
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: "80px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="h-1 bg-[#c9a03d] mx-auto rounded-full mb-16"
           />
-          
-          {/* البطاقات الثلاثة الشفافة في المنتصف */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

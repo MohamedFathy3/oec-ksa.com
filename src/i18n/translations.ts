@@ -9,7 +9,7 @@ export const translations = {
       services: "خدماتنا",
       blog: "المدونة",
       contact: "تواصل معنا",
-      name: " نبني بأسس وننجز بإتقان",
+      name: " نبني أسس  وننجز بإتقان",
     },
     hero: {
       title: "تقديم خدمات هندسية",
