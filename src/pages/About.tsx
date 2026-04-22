@@ -15,6 +15,7 @@ import mission from "@/assets/about/b8732469c237a5eba2bbbd71884efe823dd3aa58.jpg
 import goal from "@/assets/about/138833321e64994048bfe9626e12891162ba4e56.png";
 import { useTheme } from "@/contexts/ThemeContext";
 import ValuesSection from "@/components/ValuesSection";
+import { cn } from "@/lib/utils";
 
 const About = () => {
   const { t, lang, dir } = useLanguage(); 
@@ -64,40 +65,47 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
             
             {/* الصورة - على الشمال */}
-            <motion.div 
-              variants={fadeInLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="order-1"
-            >
-              <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
-                <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
-                  <img
-                    src={section}
-                    alt="about"
-                    className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </motion.div>
+          <motion.div 
+  variants={fadeInLeft}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  className={cn(
+    "order-2 md:order-1",  // موبايل: order-2 (تحت)، ديسكتوب: order-1 (فوق)
+    "w-full"
+  )}
+>
+  <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
+    <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
+      <img
+        src={section}
+        alt="about"
+        className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</motion.div>
 
-            {/* النص - على اليمين */}
-            <motion.div 
-              variants={fadeInRight}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className={`${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'} order-2`}
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 leading-relaxed">
-                {t.about.title}
-              </h2>
-              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg`}>
-                {t.about.desc}
-              </p>
-            </motion.div>
+{/* النص - على اليمين */}
+<motion.div 
+  variants={fadeInRight}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  className={cn(
+    `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
+    "order-1 md:order-2",  // موبايل: order-1 (فوق)، ديسكتوب: order-2 (تحت)
+    "w-full"
+  )}
+>
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 leading-relaxed">
+    {t.about.title}
+  </h2>
+  <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg`}>
+    {t.about.desc}
+  </p>
+</motion.div>
           </div>
         </div>
       </section>
@@ -164,6 +172,10 @@ const About = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
+               className={cn(
+    "order-2 md:order-1",  // موبايل: order-2 (تحت)، ديسكتوب: order-1 (فوق)
+    "w-full"
+  )}
             >
               <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
                 <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
@@ -183,7 +195,12 @@ const About = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="text-center lg:text-right"
+              className={cn(
+    `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
+    "order-1 md:order-2",  // موبايل: order-1 (فوق)، ديسكتوب: order-2 (تحت)
+    "w-full"
+  )}
+              
             >
               <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <img

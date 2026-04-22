@@ -56,12 +56,12 @@ const About = () => {
 
       <style jsx>{`
         .marquee-item {
-          padding: 0 40px;
+          padding: 0 20px;
           display: inline-block;
         }
         
         .marquee-image {
-          height: 70px;
+          height: 190px;
           padding: 10px;
           border-radius: 10px;
           transition: all 0.3s ease;
@@ -91,14 +91,14 @@ const About = () => {
             padding: 0 20px;
           }
           .marquee-image {
-            height: 50px;
+            height: 150px;
             padding: 8px;
           }
         }
         
         @media (min-width: 1280px) {
           .marquee-image {
-            height: 90px;
+            height: 148px;
             padding: 12px;
           }
           .marquee-item {

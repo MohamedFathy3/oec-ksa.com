@@ -397,9 +397,7 @@ const getItemStyle = (index) => {
                       }`} />
 
                       {/* الأيقونة - كبيرة جداً */}
-                      <div className={`absolute top-4 sm:top-5 right-4 sm:right-5 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[#c9a03d] flex items-center justify-center shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300`}>
-                        <Icon className="text-white" size={windowWidth < 640 ? 28 : 34} />
-                      </div>
+                    
                     </div>
 
                     {/* المحتوى - padding كبير */}

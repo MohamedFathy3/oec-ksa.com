@@ -90,10 +90,7 @@ const ValuesSection = () => {
                       : 'from-black/60 via-black/20 to-transparent'
                   }`} />
                   
-                  {/* الأيقونة فوق الصورة */}
-                  <div className="absolute -bottom-6 right-4 w-14 h-14 rounded-xl bg-[#c9a03d] flex items-center justify-center  transform rotate-6 group-hover:rotate-0 transition-all duration-300">
-                    <Icon className="text-white" size={28} />
-                  </div>
+                
                 </div>
 
                 {/* المحتوى */}

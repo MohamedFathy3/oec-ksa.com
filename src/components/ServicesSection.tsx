@@ -306,9 +306,7 @@ const getItemStyle = (index) => {
                           : 'from-black/60 via-black/20 to-transparent'
                       }`} />
 
-                      <div className={`absolute top-2 sm:top-4 right-2 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-[#c9a03d] flex items-center justify-center shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300`}>
-                        <Icon className="text-white" size={windowWidth < 640 ? 18 : 22} />
-                      </div>
+                
                     </div>
 
                     <div className={`p-3 sm:p-4 md:p-5 transition-all duration-500 ${
