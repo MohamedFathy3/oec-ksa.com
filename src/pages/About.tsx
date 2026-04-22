@@ -38,7 +38,7 @@ const About = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-screen">
+      <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-screen">
         <img
           src={Hero}
           alt="About"
@@ -51,7 +51,7 @@ const About = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[140px] font-bold text-transparent text-center"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[140px] font-bold text-transparent text-center"
             style={{ WebkitTextStroke: "2px white" }}
           >
             {t.about?.pageTitle || "من نحن"}
@@ -62,109 +62,7 @@ const About = () => {
       {/* القسم الأول: الصورة على الشمال والكلام على اليمين */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
-            
-            {/* الصورة - على الشمال */}
-          <motion.div 
-  variants={fadeInLeft}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true }}
-  className={cn(
-    "order-2 md:order-1",  // موبايل: order-2 (تحت)، ديسكتوب: order-1 (فوق)
-    "w-full"
-  )}
->
-  <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
-    <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
-      <img
-        src={section}
-        alt="about"
-        className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
-        loading="lazy"
-      />
-    </div>
-  </div>
-</motion.div>
-
-{/* النص - على اليمين */}
-<motion.div 
-  variants={fadeInRight}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true }}
-  className={cn(
-    `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
-    "order-1 md:order-2",  // موبايل: order-1 (فوق)، ديسكتوب: order-2 (تحت)
-    "w-full"
-  )}
->
-  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 leading-relaxed">
-    {t.about.title}
-  </h2>
-  <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg`}>
-    {t.about.desc}
-  </p>
-</motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* القسم الثاني: الكلام على الشمال والصورة على اليمين (عكس الأول) */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-transparent to-black/5 dark:to-white/5">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
-            
-            {/* النص - على الشمال */}
-            <motion.div 
-              variants={fadeInLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="text-center lg:text-left"
-            >
-              <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6">
-                <img
-                  src={visioniconon}
-                  alt="vision icon"
-                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover rounded-full"
-                  loading="lazy"
-                />
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
-                  {t.about.vision}
-                </h2>
-              </div>
-              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg max-w-2xl lg:max-w-full`}>
-                {t.about.visionDesc}
-              </p>
-            </motion.div>
-
-            {/* الصورة - على اليمين */}
-            <motion.div 
-              variants={fadeInRight}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
-                <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
-                  <img
-                    src={vision}
-                    alt="vision"
-                    className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* القسم الثالث: الصورة على الشمال والكلام على اليمين (زي الأول) */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
             
             {/* الصورة - على الشمال */}
             <motion.div 
@@ -172,17 +70,17 @@ const About = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-               className={cn(
-    "order-2 md:order-1",  // موبايل: order-2 (تحت)، ديسكتوب: order-1 (فوق)
-    "w-full"
-  )}
+              className={cn(
+                "order-2 lg:order-1", // موبايل: order-2, تابلت: order-2, ديسكتوب: order-1
+                "w-full"
+              )}
             >
-              <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
-                <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
+              <div className="relative overflow-hidden rounded-[40px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[100px] xl:rounded-[120px]">
+                <div className="overflow-hidden rounded-[50px] sm:rounded-[70px] md:rounded-[90px] lg:rounded-[110px] xl:rounded-[150px]">
                   <img
-                    src={mission}
-                    alt="mission"
-                    className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
+                    src={section}
+                    alt="about"
+                    className="w-full h-[200px] sm:h-[280px] md:h-[320px] lg:h-[380px] xl:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
                     loading="lazy"
                   />
                 </div>
@@ -196,24 +94,125 @@ const About = () => {
               whileInView="visible"
               viewport={{ once: true }}
               className={cn(
-    `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
-    "order-1 md:order-2",  // موبايل: order-1 (فوق)، ديسكتوب: order-2 (تحت)
-    "w-full"
-  )}
-              
+                `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
+                "order-1 lg:order-2", // موبايل: order-1, تابلت: order-1, ديسكتوب: order-2
+                "w-full"
+              )}
             >
-              <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-5 md:mb-6 leading-relaxed">
+                {t.about.title}
+              </h2>
+              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg`}>
+                {t.about.desc}
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* القسم الثاني: الكلام على الشمال والصورة على اليمين (عكس الأول) */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-transparent to-black/5 dark:to-white/5">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
+            
+            {/* النص - على الشمال */}
+            <motion.div 
+              variants={fadeInLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-center lg:text-left"
+            >
+              <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-3 sm:mb-5 md:mb-6">
+                <img
+                  src={visioniconon}
+                  alt="vision icon"
+                  className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 object-cover rounded-full"
+                  loading="lazy"
+                />
+                <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                  {t.about.vision}
+                </h2>
+              </div>
+              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg max-w-2xl lg:max-w-full mx-auto lg:mx-0`}>
+                {t.about.visionDesc}
+              </p>
+            </motion.div>
+
+            {/* الصورة - على اليمين */}
+            <motion.div 
+              variants={fadeInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <div className="relative overflow-hidden rounded-[40px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[100px] xl:rounded-[120px]">
+                <div className="overflow-hidden rounded-[50px] sm:rounded-[70px] md:rounded-[90px] lg:rounded-[110px] xl:rounded-[150px]">
+                  <img
+                    src={vision}
+                    alt="vision"
+                    className="w-full h-[200px] sm:h-[280px] md:h-[320px] lg:h-[380px] xl:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* القسم الثالث: الصورة على الشمال والكلام على اليمين (زي الأول) */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
+            
+            {/* الصورة - على الشمال */}
+            <motion.div 
+              variants={fadeInLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className={cn(
+                "order-2 lg:order-1", // موبايل: order-2, تابلت: order-2, ديسكتوب: order-1
+                "w-full"
+              )}
+            >
+              <div className="relative overflow-hidden rounded-[40px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[100px] xl:rounded-[120px]">
+                <div className="overflow-hidden rounded-[50px] sm:rounded-[70px] md:rounded-[90px] lg:rounded-[110px] xl:rounded-[150px]">
+                  <img
+                    src={mission}
+                    alt="mission"
+                    className="w-full h-[200px] sm:h-[280px] md:h-[320px] lg:h-[380px] xl:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* النص - على اليمين */}
+            <motion.div 
+              variants={fadeInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className={cn(
+                `${isDark ? 'text-gray-200' : 'text-gray-800'} ${isRTL ? 'text-right' : 'text-left'}`,
+                "order-1 lg:order-2", // موبايل: order-1, تابلت: order-1, ديسكتوب: order-2
+                "w-full"
+              )}
+            >
+              <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3 mb-3 sm:mb-5 md:mb-6">
                 <img
                   src={missionicon}
                   alt="mission icon"
-                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover rounded-full"
+                  className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 object-cover rounded-full"
                   loading="lazy"
                 />
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
                   {t.about.mission}
                 </h2>
               </div>
-              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg max-w-2xl lg:max-w-full lg:ml-auto`}>
+              <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg max-w-2xl lg:max-w-full lg:ml-auto mx-auto lg:mx-0`}>
                 {t.about.missionDesc}
               </p>
             </motion.div>
@@ -224,7 +223,7 @@ const About = () => {
       {/* القسم الرابع: الكلام على الشمال والصورة على اليمين (عكس الأول) */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-transparent to-black/5 dark:to-white/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
             
             {/* النص - على الشمال */}
             <motion.div 
@@ -232,19 +231,20 @@ const About = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
+              className="text-center lg:text-left"
             >
-              <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-3 sm:mb-5 md:mb-6">
                 <img
                   src={missionicon}
                   alt="goals icon"
-                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover rounded-full"
+                  className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 object-cover rounded-full"
                   loading="lazy"
                 />
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
                   {t.about.goals}
                 </h2>
               </div>
-              <ul className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg space-y-2 sm:space-y-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <ul className={`${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed sm:leading-loose text-sm sm:text-base md:text-lg space-y-2 sm:space-y-3 ${isRTL ? 'text-right' : 'text-left'} mx-auto lg:mx-0 max-w-2xl lg:max-w-full`}>
                 {t.about.goalsList?.map((goal, index) => (
                   <motion.li 
                     key={index} 
@@ -268,12 +268,12 @@ const About = () => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <div className="relative overflow-hidden rounded-[60px] sm:rounded-[80px] md:rounded-[100px] lg:rounded-[120px]">
-                <div className="overflow-hidden rounded-[70px] sm:rounded-[90px] md:rounded-[110px] lg:rounded-[150px]">
+              <div className="relative overflow-hidden rounded-[40px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[100px] xl:rounded-[120px]">
+                <div className="overflow-hidden rounded-[50px] sm:rounded-[70px] md:rounded-[90px] lg:rounded-[110px] xl:rounded-[150px]">
                   <img
                     src={goal}
                     alt="goals"
-                    className="w-full h-[250px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
+                    className="w-full h-[200px] sm:h-[280px] md:h-[320px] lg:h-[380px] xl:h-[400px] object-cover transition-transform duration-700 hover:scale-110"
                     loading="lazy"
                   />
                 </div>
@@ -284,7 +284,7 @@ const About = () => {
       </section>
 
       {/* Values Section Header */}
-      <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[700px]">
+      <section className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[700px]">
         <img
           src={endsection}
           alt="Values"
@@ -292,13 +292,13 @@ const About = () => {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-black/30" />
-        <div className="relative z-10 flex items-center justify-start h-full px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 flex items-center justify-start h-full px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.h1
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[120px] font-bold text-white"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[120px] font-bold text-white"
           >
             {t.about?.values || "قيمنا"}
           </motion.h1>
