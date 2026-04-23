@@ -52,7 +52,7 @@ const Navbar = () => {
           </Link>
 
           {/* البيانات - جهة اليمين في LTR والشمال في RTL */}
-          <div className={`flex items-center h-full gap-3 text-xs md:text-sm ${textMuted} ${isRTL ? "justify-start pr-28" : "justify-end pl-28"}`}>
+          <div className={`flex items-center h-full gap-3 text-xs md:text-sm ${textMuted} ${isRTL ? "justify-start " : "justify-end pl-28"}`}>
             <div className="hidden lg:flex items-center gap-2"><Mail size={14} /><span>info@oec-ksa.com</span></div>
             <div className="hidden sm:flex items-center gap-2"><Phone size={14} /><span dir="ltr">+966 50 032 5298</span></div>
             
