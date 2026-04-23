@@ -98,7 +98,7 @@ const About = () => {
         
         @media (min-width: 1280px) {
           .marquee-image {
-            height: 148px;
+            height: 170px;
             padding: 12px;
           }
           .marquee-item {
