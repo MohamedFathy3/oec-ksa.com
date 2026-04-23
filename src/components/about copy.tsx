@@ -9,7 +9,7 @@ import hgynt from "@/assets/skider/hgynt].png";
 import hlhkk from "@/assets/skider/hlhkk.png";
 import sda from "@/assets/skider/sda.png";
 import vthu from "@/assets/skider/vthu.png";
-
+import background from '@/assets/skider/background.png'
 const About = () => {
   const { isDark } = useTheme();
   const { dir } = useLanguage();
@@ -33,7 +33,14 @@ const About = () => {
   }
 
   return (
-    <div className="relative py-12 w-full overflow-hidden" dir={dir}>
+    <div className="relative py-12 w-full overflow-hidden" dir={dir}
+     style={{ 
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    backgroundRepeat: 'no-repeat'
+  }}>
       <Marquee
         velocity={30}
         direction={dir === "rtl" ? "rtl" : "ltr"}
@@ -98,7 +105,7 @@ const About = () => {
         
         @media (min-width: 1280px) {
           .marquee-image {
-            height: 170px;
+            height: 180px;
             padding: 12px;
           }
           .marquee-item {
