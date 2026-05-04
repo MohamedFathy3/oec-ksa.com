@@ -20,7 +20,7 @@ const Footer = () => {
   const socialLinks = [
     { icon: FaFacebook, href: "https://www.facebook.com/osusaletqan/?locale=ar_AR" },
     { icon: FaTwitter, href: "https://twitter.com" },
-    { icon: FaLinkedin, href: "https://linkedin.com" },
+    { icon: FaLinkedin, href: "https://www.linkedin.com/company/111157927/admin/dashboard/" },
     { icon: FaYoutube, href: "https://www.youtube.com/@osusaletqan" },
     { icon: FaInstagram, href: "https://www.instagram.com/oecaletqan/" },
     { icon: FaSnapchat, href: "https://www.snapchat.com/@oecaletqan" },
